@@ -1,22 +1,3 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-# portfolio
-=======
->>>>>>> 2a2720e (Initial commit)
+## Portfolio – Aishwarya R
 
-
-## Run Locally
-
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
-<<<<<<< HEAD
-=======
->>>>>>> ef80b92 (Initial commit)
->>>>>>> 2a2720e (Initial commit)
+Personal portfolio website showcasing my projects, skills, and experience in software development and machine learning. Built with React + TypeScript and deployed on Vercel.
