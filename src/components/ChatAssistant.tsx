@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { profile } from '../../data';
 import { Bot, User, Sparkles, Send } from 'lucide-react';
@@ -17,6 +16,10 @@ const ChatAssistant: React.FC = () => {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  
+  // ADD THIS LINE - Generate unique conversation ID
+  const [conversationId] = useState(() => `conv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
+  
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -24,46 +27,51 @@ const ChatAssistant: React.FC = () => {
       scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
     }
   }, [messages, isLoading]);
+
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (!input.trim() || isLoading) return;
+    e.preventDefault();
+    if (!input.trim() || isLoading) return;
 
-  const userMessage = input.trim();
-  setInput('');
-  setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
-  setIsLoading(true);
+    const userMessage = input.trim();
+    setInput('');
+    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setIsLoading(true);
 
-  try {
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: userMessage }),
-    });
+    try {
+      // UPDATE THIS SECTION - Add conversationId to request
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          question: userMessage,
+          conversationId // Add conversation ID for context tracking
+        }),
+      });
 
-    if (!res.ok) {
-      throw new Error(`API failed with ${res.status}`);
+      if (!res.ok) {
+        throw new Error(`API failed with ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      setMessages(prev => [
+        ...prev,
+        { role: 'assistant', content: data.answer },
+      ]);
+    } catch (err) {
+      console.error(err);
+      setMessages(prev => [
+        ...prev,
+        {
+          role: 'assistant',
+          content:
+            'The intelligence layer is currently regenerating. Please try again or use the email link in the footer.',
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
     }
-
-    const data = await res.json();
-
-    setMessages(prev => [
-      ...prev,
-      { role: 'assistant', content: data.answer },
-    ]);
-  } catch (err) {
-    console.error(err);
-    setMessages(prev => [
-      ...prev,
-      {
-        role: 'assistant',
-        content:
-          'The intelligence layer is currently regenerating. Please try again or use the email link in the footer.',
-      },
-    ]);
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   const formatContent = (text: string) => {
     return text.split('\n').filter(Boolean).map((line, i) => {
