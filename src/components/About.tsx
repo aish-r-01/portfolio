@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { profile, skills, achievements } from '../data';
+import { profile, skills, achievements } from '../../data';
 import { 
   Code2, 
   Terminal, 
@@ -8,6 +8,7 @@ import {
   BrainCircuit,
   Award
 } from 'lucide-react';
+import profileImg from "../assets/profile.jpg";
 
 const About: React.FC = () => {
   const categories = Array.from(new Set(skills.map(s => s.category)));
@@ -30,7 +31,7 @@ const About: React.FC = () => {
           <div className="bg-zinc-50/50 backdrop-blur-md p-6 rounded-[2.5rem] border border-zinc-100 reveal-on-scroll">
             <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-zinc-200 shadow-inner group border border-white">
               <img 
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1000&auto=format&fit=crop" 
+                src={profileImg}
                 alt={profile.name}
                 className="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-105"
               />
