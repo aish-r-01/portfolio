@@ -1,0 +1,38 @@
+.venv
+# --- CRITICAL: SECRETS ---
+# Never commit your API keys or environment variables
+.env
+.env.local
+.env.*.local
+
+# --- DEPENDENCIES ---
+node_modules/
+jspm_packages/
+
+# --- BUILD OUTPUT ---
+dist/
+build/
+out/
+.vercel
+.netlify
+
+# --- LOGS ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+logs/
+
+# --- IDE / SYSTEM ---
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+
+# --- TYPESCRIPT ---
+*.tsbuildinfo
