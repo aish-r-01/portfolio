@@ -24,34 +24,49 @@ const ChatAssistant: React.FC = () => {
       scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
     }
   }, [messages, isLoading]);
-
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
+  e.preventDefault();
+  if (!input.trim() || isLoading) return;
 
-    const userMessage = input.trim();
-    setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
-    setIsLoading(true);
+  const userMessage = input.trim();
+  setInput('');
+  setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+  setIsLoading(true);
 
+  try {
     const res = await fetch('/api/chat', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ question: userMessage }),
-});
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: userMessage }),
+    });
 
-const data = await res.json();
-setMessages(prev => [...prev, { role: 'assistant', content: data.answer }]);
+    if (!res.ok) {
+      throw new Error(`API failed with ${res.status}`);
+    }
 
-const response = data.reply;
+    const data = await res.json();
 
-    
-    setMessages(prev => [...prev, { role: 'assistant', content: response }]);
+    setMessages(prev => [
+      ...prev,
+      { role: 'assistant', content: data.answer },
+    ]);
+  } catch (err) {
+    console.error(err);
+    setMessages(prev => [
+      ...prev,
+      {
+        role: 'assistant',
+        content:
+          'The intelligence layer is currently regenerating. Please try again or use the email link in the footer.',
+      },
+    ]);
+  } finally {
     setIsLoading(false);
-  };
+  }
+};
 
   const formatContent = (text: string) => {
-    return text.split('\n').map((line, i) => {
+    return text.split('\n').filter(Boolean).map((line, i) => {
       const formattedLine = line
         .replace(/\*\*(.*?)\*\*/g, '<span class="text-zinc-950 font-black">$1</span>')
         .replace(/^\* (.*)/g, '<li class="ml-4 list-disc mb-1">$1</li>')
