@@ -4,9 +4,6 @@ import { profile } from '../../data';
 import { Linkedin, Github, ArrowRight, MapPin } from 'lucide-react';
 
 const Footer: React.FC = () => {
-  const handleResumeDownload = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    console.log("Initiating resume download...");
-  };
 
   const handleScrollTo = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
@@ -114,11 +111,11 @@ const Footer: React.FC = () => {
           
           <div className="flex items-center gap-10">
             <a 
-              href="/resume.pdf" 
-              download="Aishwarya_R_Resume.pdf"
-              onClick={handleResumeDownload}
-              className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-950 hover:text-indigo-600 transition-colors relative group"
-            >
+            href="/resume/Aishwarya_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-950 hover:text-indigo-600 transition-colors relative group"
+          >
               Resume
               <span className="absolute -bottom-2 left-0 w-full h-[1.5px] bg-indigo-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
             </a>
