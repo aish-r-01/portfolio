@@ -1,6 +1,5 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { askGemini } from '../../services/geminiService';
 import { profile } from '../../data';
 import { Bot, User, Sparkles, Send } from 'lucide-react';
 
@@ -35,7 +34,15 @@ const ChatAssistant: React.FC = () => {
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setIsLoading(true);
 
-    const response = await askGemini(userMessage);
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: userMessage }),
+    });
+
+const data = await res.json();
+const response = data.reply;
+
     
     setMessages(prev => [...prev, { role: 'assistant', content: response }]);
     setIsLoading(false);
