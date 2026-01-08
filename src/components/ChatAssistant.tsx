@@ -34,13 +34,15 @@ const ChatAssistant: React.FC = () => {
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setIsLoading(true);
 
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: userMessage }),
-    });
+    const res = await fetch('/api/chat', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ question: userMessage }),
+});
 
 const data = await res.json();
+setMessages(prev => [...prev, { role: 'assistant', content: data.answer }]);
+
 const response = data.reply;
 
     
