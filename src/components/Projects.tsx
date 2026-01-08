@@ -8,7 +8,7 @@ const Projects: React.FC = () => {
       <div className="flex items-end justify-between mb-12 reveal-on-scroll">
         <div>
           <h2 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.4em] mb-4">Portfolio</h2>
-          <p className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tighter">Case Studies</p>
+          <p className="text-4xl md:text-5xl font-black text-zinc-950 tracking-tighter">Projects</p>
         </div>
       </div>
 
