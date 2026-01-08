@@ -76,7 +76,7 @@ const ContactForm: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
                 <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-950 mb-2 pl-1">
-                  Full Identity
+                  Name
                 </label>
                 <input
                   required
